@@ -1,0 +1,11 @@
+-#- if Rails.env.development?
+-#  .debug
+-#    = debug(params)
+%footer.footer.navbar.navbar-inverse.navbar-fixed-bottom
+  .container-fluid
+    .navbar-collapse.collapse
+      %ul.nav.navbar-nav
+        %li= link_to 'OpenDSA', root_path
+        %li= link_to "About", home_about_path
+        %li= link_to "License", home_license_path
+        %li= link_to "Contact", home_contact_path

@@ -1,0 +1,119 @@
+%ol.breadcrumb
+  %li= link_to 'Home', root_path
+  %li.active Sample Books
+
+%h1 Sample OpenDSA eTextbooks
+
+%p
+  The OpenDSA project consists of content in the form of prose,
+  visualizations, and execises for a range of Computer Science
+  topics.
+  The OpenDSA project also provides infrastructure for selecting
+  subsets of these materials and compiling them together into an
+  "eTextbook".
+  Here we provide links to a sampling of the eTextbooks that can be
+  created.
+
+%p
+  Currently, OpenDSA eTextbooks can be configured to work within the
+  Canvas LMS.
+  This allows for collecting scoring info for students, and should
+  always be used when OpenDSA is being used for graded class
+  assignments.
+  OpenDSA can also be configured to generate stand-alone HTML pages.
+  In this format, users can view the content, and work the exercises.
+  But no scoring information is remembered.
+  This format is appropriate for an eTextbook used strictly as
+  supplemental reading material.
+
+%p
+  Canvas versions (you will need to register at
+  %a{ href: 'http://canvas.instructure.com', target: "_blank" }
+    http://canvas.instructure.com
+  to view):
+
+%ul
+  %li
+    %a{ href: 'https://canvas.instructure.com/enroll/TXJGTB', target: "_blank" }
+      Data Structures topics for a CS2-level course
+
+  %li
+    %a{ href: 'https://canvas.instructure.com/enroll/JWADTJ', target: "_blank" }
+      A post-CS2-level course
+    on Data Structures (that we refer to as "CS3").
+
+  %li
+    %a{ href: 'https://canvas.instructure.com/enroll/8PMDLD', target: "_blank" }
+      A senior-level course on Algorithm Design and Analysis.
+
+  %li
+    %a{ href: 'https://canvas.instructure.com/enroll/FYDK3F', target: "_blank" }
+      All current OpenDSA content
+    related to Data Structures and Algorithms.
+
+  %li
+    %a{ href: 'https://canvas.instructure.com/enroll/MYGH4J', target: "_blank" }
+      Programming Languages
+
+%p
+  <br/>
+
+%p
+  Supplemental reading versions:
+
+%ul
+  %li
+    - url = @config_url + '/OpenDSA/Books/CS2/index.html'
+    %a{ href: url , target: "_blank" }
+      Data Structures topics for a CS2-level course
+
+  %li
+    - url = @config_url + '/OpenDSA/Books/CS3/index.html'
+    %a{ href: url, target: "_blank" }
+      A post-CS2-level course
+    on Data Structures (that we refer to as "CS3").
+
+  %li
+    - url = @config_url + '/OpenDSA/Books/CS3slides/index.html'
+    %a{ href: url, target: "_blank" }
+      Presentation slides for "CS3" course on Data Structures.
+
+  %li
+    - url = @config_url + '/OpenDSA/Books/CS3notes/index.html'
+    %a{ href: url, target: "_blank" }
+      Coursenotes form of presentation slides for "CS3" course on Data
+    Structures. 
+
+  %li
+    - url = @config_url + '/OpenDSA/Books/CS4104/index.html'
+    %a{ href: url, target: "_blank" }
+      A senior-level course on Algorithm Design and Analysis.
+
+  %li
+    - url = @config_url + '/OpenDSA/Books/Everything/index.html'
+    %a{ href: url, target: "_blank" }
+      All current OpenDSA content
+    related to Data Structures and Algorithms.
+
+  %li
+    - url = @config_url + '/OpenDSA/Books/PL/index.html'
+    %a{ href: url, target: "_blank" }
+      Programming Languages
+
+%p
+  WARNING TO INSTRUCTORS: Some instructors like to give their students
+  access to these public instances of our materials. That is fine so
+  long as you are aware that we periodically update the books.
+  The means: (1) The links to the supplemental reading versions on
+  this page should be reliable in the future. When we recompile, we
+  maintain the root URL for the book.
+  (2) For the Canvas versions, ONLY give out the links on this page,
+  that lead to the enrollment page for the course. In normal use,
+  students will then have the course in their Canvas course list,
+  which should remain reliable. However, it is NOT reliable to give a
+  direct link to a Canvas course URL, because that changes everytime
+  that we recompile the book.
+  (3) Do NOT try creating a new Canvas course by cloning an existing
+  course with OpenDSA materials. Any new Canvas course needs its
+  OpenDSA materials pushed to it directly by our standard course
+  configuration process, otherwise the links will not work correctly.

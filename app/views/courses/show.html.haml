@@ -1,0 +1,93 @@
+= render 'layouts/breadcrumb'
+
+%h1
+  = @course.number_and_name
+  %small= @term.display_name
+- if @course_offerings && @course_offerings.any?
+  %p
+    - @course_offerings.each_with_index do |offering, i|
+      - if i > 0
+        %br/
+      %strong= offering.display_name
+      - if offering.is_manager? current_user
+        = surround '(', (offering.instructors.any? ? '),' : ')') do
+          = link_to 'edit', edit_admin_course_offering_path(offering)
+        / - else
+        /   = link_to 'unenroll', course_offering_unenroll_path(offering),
+        /     method: :delete
+      - if offering.instructors.any?
+        = succeed ':' do
+          = 'instructor'.pluralize(offering.instructors.size)
+        = succeed (offering.graders.any? ? ',' : '') do
+          != offering.instructors.map{ |i| link_to i.display_name,
+            user_path(i) }.to_sentence
+      / - if offering.graders.any?
+      /   = succeed ':' do
+      /     = 'grader'.pluralize(offering.graders.size)
+      /   != offering.graders.map{ |i| link_to i.display_name,
+      /     user_path(i) }.to_sentence
+
+  - if !@is_student
+    .well
+      .row
+        .col-xs-12
+          .progress-status.text-primary
+            0/0
+      .row
+        .col-xs-12
+          .progress.progress-striped.active
+            .progress-bar
+              .text-primary
+                0%
+    - @course_offerings.each do |offering|
+      - if @course_offerings.size > 1
+        %h2= offering.display_name
+        = link_to
+      %table.table.table-striped
+        %thead
+          %tr
+            %th Book Title
+            %th Canvas Course
+            %th
+            %th
+            %th
+        %tbody#odsa
+          - @inst_book = offering.inst_books
+          = render @inst_book
+
+
+-else
+
+  %h2 Offerings
+
+  %table.table.table-striped{ style: 'width: auto' }
+    %thead
+      %tr
+        %th Term
+        %th Section
+        %th OpenDSA Book
+        %th Instructors
+        / %th Graders
+        / %th Enroll
+    %tbody
+      - @course.course_offerings.each do |o|
+        %tr
+          %td= o.term.display_name
+          %td= o.display_name
+          - if o.odsa_books.many?
+            %td
+              %table.table.table-striped
+                - o.odsa_books.each do |bk|
+                  %tr
+                    %td= bk.title
+          - else
+            %td!= o.odsa_books.map{ |i| i.title }.to_sentence
+
+          %td!= o.instructors.map{ |i| link_to i.display_name,
+            user_path(i) }.to_sentence
+          / %td!= o.graders.map{ |i| link_to i.display_name,
+          /   user_path(i) }.to_sentence
+          / %td
+          /   = render partial: 'course_offerings/self_enrollment',
+          /     locals: { o: o }
+

@@ -1,0 +1,2 @@
+class PiAttempt < ApplicationRecord
+end

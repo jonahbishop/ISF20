@@ -1,0 +1,40 @@
+<script>
+  (function() {
+    var TP = {};
+  <% if @outcome_service %>
+    TP.outcomeService = true;
+    TP.exerciseName = "<%= params[:custom_ex_name] %>";
+    TP.instBookSectionExerciseId = "<%= params[:custom_inst_bk_sec_ex] %>";
+    TP.outcomeService = true;
+  <% else %>
+    TP.outcomeService = false;
+  <% end %>
+
+    TP.toParams = {};
+    TP.toParams.launch_params = {};
+    <% params.each do |key, value| %>
+      TP.toParams.launch_params.<%= key %> = "<%= value %>";
+    <% end%>
+    TP.userEmail = "<%= @user.email %>";
+    <% if params.key?(:custom_inst_chapter_module_id) %>
+      TP.moduleTitle = "<%= params[:custom_module_title] %>";
+      TP.instChapterModuleId = "<%= params[:custom_inst_chapter_module_id] %>";
+    <% elsif params.key?(:custom_inst_module_id) %>
+      TP.moduleTitle = "<%= @mod_version.name %>";
+      TP.instModuleVersionId = "<%= @mod_version.id %>";
+      TP.exerciseSettings = <%= @exercises.to_json.html_safe %>;
+    <% else %>
+      TP.sectionTitle = "<%= params[:custom_section_title] %>";
+      TP.instSectionId = "<%= params[:custom_inst_section_id] %>";
+    <% end %>
+    <% if params.key?(:custom_inst_book_id) %>
+      TP.instBookId = "<%= params[:custom_inst_book_id] %>";
+    <% end %>
+
+    window.ODSA = window.ODSA || {};
+    window.ODSA.TP = TP;
+  }());
+</script>
+
+<%= @section_html.html_safe %>
+

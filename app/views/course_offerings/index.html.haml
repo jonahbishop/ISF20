@@ -1,0 +1,29 @@
+%h1 Course Offerings
+
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th Term
+      %th Course Number
+      %th Label
+      %th URL
+      %th Self enrollment?
+      %th Actions
+
+  %tbody
+    - @course_offerings.each do |o|
+      %tr
+        %td= o.term.display_name
+        %td= o.course.number
+        %td= link_to o.label,
+          course_offering_path(o)
+        %td= o.url
+        %td= o.self_enrollment_allowed
+        %td
+          = button_link 'Show', o, size: 'sm'
+          = button_link 'Edit', edit_course_offering_path(o),
+            size: 'sm'
+          = button_link 'Destroy', o, method: :delete,
+            size: 'sm', data: { confirm: 'Are you sure?' }
+
+= button_link 'New Course Offering', new_course_offering_path

@@ -1,0 +1,58 @@
+%ol.breadcrumb
+  %li= link_to 'Home', root_path
+  %li.active Instructor Guides
+
+%h1 Instructor Guides
+
+<p>
+These guides will help instructors to set up an OpenDSA eTextbook
+instance for use within a Canvas course, and/or add individual exercises
+and visualizations to their Canvas, Moodle, or Blackboard course.
+If your institution has its own Canvas installation, then you can
+attach an OpenDSA eTextbook to any course where you have instructor
+permissions.
+If you don't have access to Canvas at your institution, then you can
+create a Canvas course at the public Canvas site,
+<a href="https://canvas.instructure.com">https://canvas.instructure.com</a>
+</p>
+
+<p>
+<b>Note:</b> If you are an OpenDSA developer, then you probably want
+to set up your own test installation following the directions at
+<a href="https://github.com/OpenDSA/OpenDSA-DevStack">
+https://github.com/OpenDSA/OpenDSA-DevStack</a>.
+</p>
+
+<p>
+<b>Note 2:</b> Instructors should <b>not</b> use the Canvas "clone
+course" feature as a way to copy an existing course with OpenDSA
+materials.
+The process described here for creating a course with an OpenDSA
+textbook sets up course-specific links that cannot be cloned.
+If you want to clone the course for reasons other than to duplicate
+the OpenDSA textbook, you can still do that.
+Just delete all of the OpenDSA modules and Assignments, and then use
+the directions here to create the new eTextbook materials in the new
+course shell.
+</p>
+
+%h3 Available Guides
+%ul
+  %li
+    %a{href: guide_bookinstance_path}
+      Adding an OpenDSA eTextbook to a Canvas course
+  %li
+    %a{href: guide_book_configuration_path}
+      Configuring OpenDSA eTextbook content
+  %li
+    %a{href: guide_canvas_path}
+      Adding an OpenDSA module, exercise, or visualization to a Canvas course
+  %li
+    %a{href: guide_moodle_path}
+      Adding an OpenDSA module, exercise, or visualization to a Moodle course
+  %li
+    %a{href: guide_blackboard_path}
+      Adding an OpenDSA module, exercise, or visualization to a Blackboard course
+  %li
+    %a{href: guide_embed_path}
+      Adding an ungraded OpenDSA exercise or visualization to an arbitrary HTML page

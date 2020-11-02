@@ -1,0 +1,23 @@
+{
+  "name": "opendsa-lti",
+  "homepage": "https://github.com/OpenDSA/OpenDSA-LTI",
+  "authors": [
+    "Hudson Worden <hudson.worden@gmail.com>"
+  ],
+  "description": "None",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib/assets",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#^1.5.3",
+    "jstree": "^3.3.0"
+  }
+}

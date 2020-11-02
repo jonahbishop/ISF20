@@ -1,0 +1,31 @@
+%ol.breadcrumb
+  %li= link_to 'Home', root_path
+  %li.active Contact
+
+%h1 Contact the OpenDSA Team
+
+.form-horizontal.formtastic{ style: 'margin-left: 20px;' }
+  .form-group
+    %label.control-label Project Director:
+    .form-wrapper
+      Cliff Shaffer,
+      =link_to 'shaffer@vt.edu', 'mailto:shaffer@vt.edu'
+
+  .form-group
+    %label.control-label Source Code:
+    .form-wrapper
+      =link_to 'https://github.com/OpenDSA',
+        'https://github.com/OpenDSA'
+
+  .form-group
+    %label.control-label Issue Tracker:
+    .form-wrapper
+      =link_to 'https://github.com/OpenDSA/OpenDSA/issues',
+        'https://github.com/OpenDSA/OpenDSA/issues'
+
+  %p
+    For more information about OpenDSA, and how you can contribute to
+    the OpenDSA project, please see
+    = succeed '.' do
+      %a{ href: 'https://github.com/OpenDSA/OpenDSA/wiki' }
+        https://github.com/OpenDSA/OpenDSA/wiki
