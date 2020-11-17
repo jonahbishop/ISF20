@@ -94,6 +94,21 @@ class BookDataDownloadsController < ApplicationController
         if(params[:type] == "interaction") then
           send_data @interactions.to_json, :type => 'application/json; header=present', filename: "interactions-#{@book.title}.json"
         end
+        if(params[:table_id] == "Course Enrollments") then
+          send_data @interactions.to_json, :type => 'application/json; header=present', filename: "course-enrollments.json"
+        end
+        if(params[:table_id] == "Course Offerings") then
+          send_data @interactions.to_json, :type => 'application/json; header=present', filename: "course-offerings.json"
+        end
+        if(params[:table_id] == "Course Roles") then
+          send_data @interactions.to_json, :type => 'application/json; header=present', filename: "course-roles.json"
+        end
+        if(params[:table_id] == "Courses") then
+          send_data @interactions.to_json, :type => 'application/json; header=present', filename: "courses.json"
+        end
+        if(params[:table_id] == "Odsa Exercise Attempts") then
+          send_data @interactions.to_json, :type => 'application/json; header=present', filename: "exercises-attempts-#{@book.title}.json"
+        end
       end
     end
   end
