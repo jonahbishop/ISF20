@@ -15,6 +15,13 @@ class BookDataDownloadsController < ApplicationController
     @interactions = OdsaUserInteraction.where(inst_book_id: @book.id)
     @book_id = params[:book_id]
     session[:curr_book] = @book_id
+
+    @table_list = Array.new
+    ActiveRecord::Base.connection.tables.each do |t|
+      if t != "active_admin_comments" && t != "ar_internal_metadata" then
+        @table_list << t.humanize.split.map { |x| x.capitalize }.join(" ")
+      end
+    end
   end
   def index
     @book_id = session[:curr_book]
@@ -29,6 +36,11 @@ class BookDataDownloadsController < ApplicationController
     @ex_progresses = OdsaExerciseProgress.where(id: @ex_progresses.map(&:id))
     @md_progresses = OdsaModuleProgress.where(inst_book_id: @book.id)
     @interactions = OdsaUserInteraction.where(inst_book_id: @book.id)
+
+    @course_enrollments = CourseEnrollment
+    @course_offerings = CourseOffering
+    @course_roles = CourseRole
+    @courses = Course
 
     respond_to do |format|
       param_array = Array.new
@@ -52,6 +64,21 @@ class BookDataDownloadsController < ApplicationController
         end
         if(params[:type] == "interaction") then
           send_data @interactions.to_csv, filename: "interactions-#{@book.title}.csv"
+        end
+        if(params[:table_id] == "Course Enrollments") then
+          send_data @ex_attempts.to_csv, filename: "course-enrollments.csv"
+        end
+        if(params[:table_id] == "Course Offerings") then
+          send_data @ex_attempts.to_csv, filename: "course-offerings.csv"
+        end
+        if(params[:table_id] == "Course Roles") then
+          send_data @ex_attempts.to_csv, filename: "course-roles.csv"
+        end
+        if(params[:table_id] == "Courses") then
+          send_data @ex_attempts.to_csv, filename: "courses.csv"
+        end
+        if(params[:table_id] == "Odsa Exercise Attempts") then
+          send_data @ex_attempts.to_csv, filename: "exercises-attempts-#{@book.title}.csv"
         end
       end
       format.json do

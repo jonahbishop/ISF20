@@ -160,5 +160,13 @@
 <br />
 <%= link_to '<button type="button">Download Interactions List (JSON)</button>'.html_safe, book_data_downloads_path(type: "interaction", format: :json) %>
 <br />
+
+<h3>Table Select</h3>
+<%= form_tag book_data_downloads_path() , :method => 'get' do %>
+  <%= hidden_field_tag 'format', 'csv' %>
+  <%= select_tag('table_id', options_for_select(@table_list), :prompt=>"Select Table") %>
+  <%= submit_tag "Download" %>
+<% end %>
+<br />
 <h2>Download Data by Students</h2>
 <%= link_to '<button type="button">Students of Course</button>'.html_safe, book_users_list_path(@book.id) %>
