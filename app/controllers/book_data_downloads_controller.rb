@@ -1,5 +1,5 @@
 class BookDataDownloadsController < ApplicationController
-  include ToCsv
+  include BookDataDownloadsHelper
 
   def show
     @book = InstBook.find_by_id(params[:book_id])
@@ -14,14 +14,15 @@ class BookDataDownloadsController < ApplicationController
     @md_progresses = OdsaModuleProgress.where(inst_book_id: @book.id)
     @interactions = OdsaUserInteraction.where(inst_book_id: @book.id)
     @book_id = params[:book_id]
-    session[:curr_book] = @book_id
+    @attributes_list = Array.new
+    @attributes_list = combine_attributes(@ex_attempts, "attempt", @attributes_list)
+    @attributes_list = combine_attributes(@ex_progresses, "prog", @attributes_list)
+    @attributes_list = combine_attributes(@interactions, "interaction", @attributes_list)
+    @attempt_desc = attempt_attr_desc
+    @progress_desc = progress_attr_desc
+    @interaction_desc = interaction_attr_desc
 
-    @table_list = Array.new
-    ActiveRecord::Base.connection.tables.each do |t|
-      if t != "active_admin_comments" && t != "ar_internal_metadata" then
-        @table_list << t.humanize.split.map { |x| x.capitalize }.join(" ")
-      end
-    end
+    session[:curr_book] = @book_id
   end
   def index
     @book_id = session[:curr_book]
@@ -36,11 +37,6 @@ class BookDataDownloadsController < ApplicationController
     @ex_progresses = OdsaExerciseProgress.where(id: @ex_progresses.map(&:id))
     @md_progresses = OdsaModuleProgress.where(inst_book_id: @book.id)
     @interactions = OdsaUserInteraction.where(inst_book_id: @book.id)
-
-    @course_enrollments = CourseEnrollment
-    @course_offerings = CourseOffering
-    @course_roles = CourseRole
-    @courses = Course
 
     respond_to do |format|
       param_array = Array.new
@@ -57,28 +53,13 @@ class BookDataDownloadsController < ApplicationController
           send_data to_csv([@ex_attempts, param_array]), filename: "exercises-attempts-#{@book.title}.csv"
         end
         if(params[:type] == "progress") then
-          send_data @ex_progresses.to_csv, filename: "exercise-progresses-#{@book.title}.csv"
+          send_data to_csv([@ex_progresses, param_array]), filename: "exercise-progresses-#{@book.title}.csv"
         end
         if(params[:type] == "md_progress") then
           send_data @md_progresses.to_csv, filename: "module-progresses-#{@book.title}.csv"
         end
         if(params[:type] == "interaction") then
-          send_data @interactions.to_csv, filename: "interactions-#{@book.title}.csv"
-        end
-        if(params[:table_id] == "Course Enrollments") then
-          send_data @ex_attempts.to_csv, filename: "course-enrollments.csv"
-        end
-        if(params[:table_id] == "Course Offerings") then
-          send_data @ex_attempts.to_csv, filename: "course-offerings.csv"
-        end
-        if(params[:table_id] == "Course Roles") then
-          send_data @ex_attempts.to_csv, filename: "course-roles.csv"
-        end
-        if(params[:table_id] == "Courses") then
-          send_data @ex_attempts.to_csv, filename: "courses.csv"
-        end
-        if(params[:table_id] == "Odsa Exercise Attempts") then
-          send_data @ex_attempts.to_csv, filename: "exercises-attempts-#{@book.title}.csv"
+          send_data ([@interactions, param_array]), filename: "interactions-#{@book.title}.csv"
         end
       end
       format.json do
@@ -86,28 +67,13 @@ class BookDataDownloadsController < ApplicationController
           send_data @ex_attempts.to_json(:only => param_array ), :type => 'application/json; header=present', filename: "exercises-attempts-#{@book.title}.json"
         end
         if(params[:type] == "progress") then
-          send_data @ex_progresses.to_json, :type => 'application/json; header=present', filename: "exercises-progresses-#{@book.title}.json"
+          send_data @ex_progresses.to_json(:only => param_array), :type => 'application/json; header=present', filename: "exercises-progresses-#{@book.title}.json"
         end
         if(params[:type] == "md_progress") then
-          send_data @md_progresses.to_json, :type => 'application/json; header=present', filename: "module-progresses-#{@book.title}.json"
+          send_data @md_progresses.to_json(:only => param_array), :type => 'application/json; header=present', filename: "module-progresses-#{@book.title}.json"
         end
         if(params[:type] == "interaction") then
-          send_data @interactions.to_json, :type => 'application/json; header=present', filename: "interactions-#{@book.title}.json"
-        end
-        if(params[:table_id] == "Course Enrollments") then
-          send_data @interactions.to_json, :type => 'application/json; header=present', filename: "course-enrollments.json"
-        end
-        if(params[:table_id] == "Course Offerings") then
-          send_data @interactions.to_json, :type => 'application/json; header=present', filename: "course-offerings.json"
-        end
-        if(params[:table_id] == "Course Roles") then
-          send_data @interactions.to_json, :type => 'application/json; header=present', filename: "course-roles.json"
-        end
-        if(params[:table_id] == "Courses") then
-          send_data @interactions.to_json, :type => 'application/json; header=present', filename: "courses.json"
-        end
-        if(params[:table_id] == "Odsa Exercise Attempts") then
-          send_data @interactions.to_json, :type => 'application/json; header=present', filename: "exercises-attempts-#{@book.title}.json"
+          send_data @interactions.to_json(:only => param_array), :type => 'application/json; header=present', filename: "interactions-#{@book.title}.json"
         end
       end
     end
